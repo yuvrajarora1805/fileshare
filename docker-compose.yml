@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+    container_name: fileshare-backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - backend-uploads:/app/uploads
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: fileshare-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  backend-uploads:
